@@ -55,14 +55,14 @@ html, body, .map, .viewport {
     right: 10px;
     top: 10px;
     width: 100px;
-    height: 100px;
+    height: 130px;
     background: #FFF;
 }
 .text-block:before {
     content: 'Блок';
     display: block;
     text-align: center;
-    line-height: 100px;
+    line-height: 130px;
     font-weight: bold;
 }
 .map-bounds {
