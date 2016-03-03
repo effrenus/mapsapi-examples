@@ -44,6 +44,7 @@ ymaps.ready(function () {
         type: MAP_TYPE_NAME
     }, {
         // Задаем в качестве проекции Декартову
-        projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
+        projection: new ymaps.projection.Cartesian([[-10, -10], [10, 10]], [false, false])
     });
+
 });
