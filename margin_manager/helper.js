@@ -5,7 +5,7 @@
         if (!container) {
             container = document.createElement('div');
             container.className = 'area-holder is-hidden';
-            document.body.appendChild(container);
+            document.getElementsByClassName('viewport')[0].appendChild(container);
         }
 
         var markElement = document.createElement('div');
