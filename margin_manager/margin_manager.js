@@ -26,15 +26,16 @@ ymaps.ready(function () {
         {
             balloonContentLayout: Layout,
             balloonAutoPan: false,
-            balloonPanelMaxMapArea: 0
+            balloonPanelMaxMapArea: 0,
+            balloonCloseButton: false
         }
     );
 
     // указываем для элементов область занимаемую над картой (положение и размер)
-    // поддерживаюися значения в пикселях (px) и процентах (%)
-    // если единица измерения не указана, то считается значение в пикселях
+    // поддерживаются значения в пикселях (px) и процентах (%)
+    // если единица измерения не указана, то считается, что значение в пикселях
     var mapAreas = [
-        // панель с иконками
+        // панель слева
         {
             top: 0,
             left: 0,
@@ -51,9 +52,9 @@ ymaps.ready(function () {
     ];
     // добавляем каждый блок в менеджер отступов
     mapAreas.forEach(function (area) {
-        // метод `addArea` возвращает объект, который предоставляет доступ к прямоугольной области в менеджере отступов
+        // метод `addArea` менеджера отступов возвращает объект (аксессор), который предоставляет доступ к прямоугольной области в менеджере отступов
         var accessor = map.margin.addArea(area);
-        // если вызвать метод `remove` у аксессора, то область будет удалена и менеджера отступов
+        // если у аксессора вызвать метод `remove`, то область будет удалена и менеджера отступов
         // пример: accessor.remove()
 
         addArea(accessor);
@@ -61,9 +62,14 @@ ymaps.ready(function () {
 
     map.balloon.open(balloonPosition);
 
+    // Контролы поддерживают опцию adjustMapMargin
+    // Когда значение true, контрол автоматически добавляет свои размеры в менеджер отступов
     var toggleAreaBtn = new ymaps.control.Button({
         data: {content: 'Показать занятые области', title: 'Показать все занятые области из менеджера отступов'},
-        options: {maxWidth: 300}
+        options: {
+            maxWidth: 300,
+            // adjustMapMargin: true
+        }
     });
     // по клику над картой отображаются все области, добавленные
     // в менеджер отступов
@@ -74,7 +80,7 @@ ymaps.ready(function () {
     map.controls.add(toggleAreaBtn);
 
     var toggleMarginBtn = new ymaps.control.Button({
-        data: {content: 'Показать поля', title: 'Показать поля карты'},
+        data: {content: 'Показать отступы', title: 'Показать отступы карты'},
         options: {
             // разрешаем контролу автоматически добавить свои размеры в менеджер отступов
             // adjustMapMargin: true,
@@ -87,7 +93,7 @@ ymaps.ready(function () {
     });
     map.controls.add(toggleMarginBtn);
 
-    // показываем поля карты
+    // показываем отступы карты
     function updateMapMargins () {
         var margin = map.margin.getMargin();
         document.getElementsByClassName('map-bounds')[0].style.borderWidth = margin.join('px ') + 'px';
