@@ -1,10 +1,32 @@
 ymaps.ready(function () {
-    var map = new ymaps.Map(
+    var balloonPosition = [55.83866, 37.712326],
+        Layout = ymaps.templateLayoutFactory.createClass([
+            'Центровать<br>',
+            '<button class="no-margin">без отступов</button>',
+            '<button class="with-margin">учитывая отступы</button>',
+        ].join(''), {
+            build: function () {
+                Layout.superclass.build.call(this, arguments);
+                var container = this.getElement();
+                container.getElementsByClassName('no-margin')[0].addEventListener('click', function () {
+                    map.panTo(balloonPosition);
+                });
+                container.getElementsByClassName('with-margin')[0].addEventListener('click', function () {
+                    map.panTo(balloonPosition, {useMapMargin: true});
+                });
+            }
+        }),
+        map = new ymaps.Map(
         'map',
         {
-            center: [55.76, 37.64],
-            zoom: 9,
+            center: [55.85, 37.7124],
+            zoom: 11,
             controls: []
+        },
+        {
+            balloonContentLayout: Layout,
+            balloonAutoPan: false,
+            balloonPanelMaxMapArea: 0
         }
     );
 
@@ -14,17 +36,17 @@ ymaps.ready(function () {
     var mapAreas = [
         // панель с иконками
         {
-            top: '20%', // проценты расчитываются относительно размеров контейнера с картой
+            top: 0,
             left: 0,
-            width: '50px',
-            height: '130px'
+            width: '80px',
+            height: '100%' // проценты расчитываются относительно размеров контейнера с картой
         },
         // блок в правом углу
         {
             top: 10,
             right: 10,
-            width: 100,
-            height: 130
+            width: '40%',
+            height: '40%'
         }
     ];
     // добавляем каждый блок в менеджер отступов
@@ -37,17 +59,7 @@ ymaps.ready(function () {
         addArea(accessor);
     });
 
-    $.getJSON('data.json').then(function (geoJSON) {
-        var objectManager = new ymaps.ObjectManager({geoObjectBalloonAutoPan: false});
-        objectManager.add(geoJSON);
-
-        map.geoObjects.add(objectManager);
-
-        objectManager.objects.events.add('click', function (event) {
-            var objectData = objectManager.objects.getById(event.get('objectId'))
-            map.panTo(objectData.geometry.coordinates, {useMapMargin: !!objectData.properties.useMargin});
-        });
-    });
+    map.balloon.open(balloonPosition);
 
     var toggleAreaBtn = new ymaps.control.Button({
         data: {content: 'Показать занятые области', title: 'Показать все занятые области из менеджера отступов'},

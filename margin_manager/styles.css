@@ -18,27 +18,6 @@ html, body, .map, .viewport {
     border: 2px dashed #555;
     box-sizing: border-box;
 }
-.icon-panel {
-    position: absolute;
-    top: 20%;
-    left: 0;
-    width: 50px;
-    height: 130px;
-    background: #FFF;
-    border-radius: 0 5px 5px 0;
-    box-shadow: 0 0 5px #AAA;
-}
-.icon-panel li {
-    display: block;
-    margin-bottom: 5px;
-    padding: 5px;
-    text-align: center;
-    font-size: 2em;
-}
-.icon-panel li:hover {
-    box-shadow: 0 0 5px #CCC;
-    cursor: pointer;
-}
 .area-holder {
     position: absolute;
     left: 0;
@@ -49,21 +28,6 @@ html, body, .map, .viewport {
 }
 .area-holder.is-hidden {
     display: none;
-}
-.text-block {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    width: 100px;
-    height: 130px;
-    background: #FFF;
-}
-.text-block:before {
-    content: 'Блок';
-    display: block;
-    text-align: center;
-    line-height: 130px;
-    font-weight: bold;
 }
 .map-bounds {
     position: absolute;
@@ -77,4 +41,9 @@ html, body, .map, .viewport {
 }
 .is-hidden {
     display: none;
+}
+button {
+    margin-right: 5px;
+    padding: 5px;
+    cursor: pointer;
 }
