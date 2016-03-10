@@ -2,17 +2,17 @@ ymaps.ready(function () {
     var balloonPosition = [55.83866, 37.712326],
         Layout = ymaps.templateLayoutFactory.createClass([
             'Центровать<br>',
-            '<button class="no-margin">без отступов</button>',
-            '<button class="with-margin">учитывая отступы</button>',
+            '<button type="button" class="no-margin">без отступов</button>',
+            '<button type="button" class="with-margin">учитывая отступы</button>',
         ].join(''), {
             build: function () {
                 Layout.superclass.build.call(this, arguments);
                 var container = this.getElement();
-                container.getElementsByClassName('no-margin')[0].addEventListener('click', function () {
-                    map.panTo(balloonPosition);
-                });
-                container.getElementsByClassName('with-margin')[0].addEventListener('click', function () {
-                    map.panTo(balloonPosition, {useMapMargin: true});
+                container.addEventListener('click', function (event) {
+                    var target = event.target;
+                    if (target.tagName.toLowerCase() == 'button') {
+                        map.panTo(balloonPosition, {useMapMargin: target.className.match(/with-margin/i)});
+                    }
                 });
             }
         }),
