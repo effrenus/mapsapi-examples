@@ -47,8 +47,17 @@ function init() {
 
             myPlacemark.properties
                 .set({
-                    iconContent: firstGeoObject.properties.get('name'),
-                    balloonContent: firstGeoObject.properties.get('text')
+                    // Формируем строку с данными о объекте.
+                    iconContent: [
+                            // Название населенного пунтка.
+                            firstGeoObject.getLocalities(),
+                            // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                            firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                        ].filter(function (locationPart) {
+                            return typeof locationPart != 'undefined';
+                        }).join(', '),
+                    // В качестве контента балуна задаем строку с адресом объекта.
+                    balloonContent: firstGeoObject.getAddressLine()
                 });
         });
     }
