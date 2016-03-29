@@ -17,10 +17,18 @@ function init() {
         // Ищем только станции метро.
         kind: 'metro',
         // Запрашиваем не более 20 результатов.
-        results: 20
+        // results: 20
     }).then(function (res) {
             // Задаем изображение для иконок меток.
             res.geoObjects.options.set('preset', 'islands#redCircleIcon');
+            res.geoObjects.events
+                .add('mouseenter', function (event) {
+                    var geoObject = event.get('target');
+                    myMap.hint.open(geoObject.geometry.getCoordinates(), geoObject.getPremise());
+                })
+                .add('mouseleave', function (event) {
+                    myMap.hint.close(true);
+                });
             // Добавляем коллекцию найденных геообъектов на карту.
             myMap.geoObjects.add(res.geoObjects);
             // Масштабируем карту на область видимости коллекции.

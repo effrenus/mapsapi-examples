@@ -47,8 +47,13 @@ function init() {
 
             myPlacemark.properties
                 .set({
-                    iconContent: firstGeoObject.properties.get('name'),
-                    balloonContent: firstGeoObject.properties.get('text')
+                    iconContent: [
+                            firstGeoObject.getLocalities(),
+                            firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                        ].filter(function (locationPart) {
+                            return typeof locationPart != 'undefined';
+                        }).join(', '),
+                    balloonContent: firstGeoObject.getAddressLine()
                 });
         });
     }
